@@ -1,9 +1,31 @@
-pipeline { 
-    agent any  
-    stages { 
-        stage('Build') { 
-            steps { 
-               echo 'This is a minimal pipeline. Example A' 
+pipeline {
+    agent any
+
+    stages {
+        stage ('Build') {
+
+            steps {
+                withMaven(maven : 'maven_3_5_3') {
+                    sh 'mvn clean compile'
+                }
+            }
+        }
+
+        stage ('Test') {
+
+            steps {
+                withMaven(maven : 'maven_3_5_3') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+
+        stage ('Run') {
+            steps {
+                withMaven(maven : 'maven_3_5_3') {
+                    sh 'mvn deploy'
+                }
             }
         }
     }
